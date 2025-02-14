@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quote 1</title>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Courier New", monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+            background: rgb(0, 0, 0)
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('ben12.jpg') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .chaotic-text {
+            position: relative;
+            cursor: pointer;
+            z-index: 1;
+            max-width: 75%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: none;
+            padding: 2em 2em 8em;
+            text-align: left;
+            line-height: 1.5;
+            font-size: 1.5em;
+            color: rgb(124, 138, 189);
+        }
+
+        .chaotic-text span {
+            display: inline-block;
+            transition: transform 1s ease-out, opacity 1s ease-out;
+            position: relative;
+            cursor: pointer;
+            white-space: pre;
+        }
+
+        .chaotic-text span.chaos {
+            animation: chaosMove 1.5s ease-in-out forwards;
+        }
+
+        @keyframes chaosMove {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            30% {
+                transform: translate(calc(50vw * (Math.random() - 0.5)), calc(50vh * (Math.random() - 0.5))) rotate(720deg);
+                opacity: 0.2;
+            }
+            60% {
+                transform: translate(calc(-50vw * (Math.random() - 0.5)), calc(-50vh * (Math.random() - 0.5))) rotate(-720deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background"></div> <!-- Added background div -->
+
+    <p class="chaotic-text"></p>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const textElement = document.querySelector(".chaotic-text");
+            const text = "“The bear of the caves and his friend the bittern, the vol-au-vent and his valet the wind, the Lord Chancellor with his Lady, the scarecrow for sparrows and his accomplice the sparrow, the test tube and his daughter the needle, this carnivore and his brother the carnival, the sweeper and his monocle, the Mississippi and its little dog, the coral and its jug of milk, the Miracle and its Good Lord, might just as well go and disappear from the surface of the sea.”";
+            
+            textElement.innerHTML = text.split("").map(letter => {
+                if (letter === " ") {
+                    return `<span>&nbsp;</span>`;  // Keeps spaces between words
+                }
+                return `<span>${letter}</span>`;
+            }).join("");
+
+            const letters = document.querySelectorAll(".chaotic-text span");
+
+            letters.forEach(letter => {
+                letter.addEventListener("mouseover", () => {
+                    if (Math.random() > 0.5) {
+                        letter.classList.add("chaos");
+                        setTimeout(() => letter.classList.remove("chaos"), 2000);
+                    } else {
+                        letter.style.opacity = "0";
+                        setTimeout(() => letter.style.opacity = "1", 2000);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
